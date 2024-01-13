@@ -85,8 +85,21 @@ Gestation<- mutate(Gestation, race=str_to_title(race))
 # Hint: Look at the help file for `pivot_wider` for what to do with missing cells 
 #(where there is no combination of these variables) and set the argument to be 0.
 
-pivot_wider(Gestation_n_race_ed)
+pivot_wider(Gestation_n_race_ed, names_from="race", values_from="n",values_fill=0)
+
+
 # Activity 4d - Multiple summary statistics
 
-# Calculate the mean, standard deviation, minimum, maximum and proportion of values missing for the mothers' ages for each race group.
+# Calculate the mean, standard deviation, minimum, maximum and proportion of 
+#values missing for the mothers' ages for each race group.
 # Hint: you *can* use summarise_at() for this but you could also just summarise()
+
+
+
+Gestation %>% group_by(race)%>% 
+  summarise(mean=mean(age, na.rm=T), sd=sd(age, na.rm=T), min=min(age, na.rm=T), 
+            max=max(age, na.rm=T), n=n(), na_num=sum(is.na(age)))%>%mutate(prop=na_num/n)
+
+ 
+
+                                                                                                                               
